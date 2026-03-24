@@ -524,8 +524,9 @@ footer a:hover{text-decoration:underline;}
   border-radius: var(--radius-sm);
   padding: 20px;
   margin-bottom: 14px;
-  display: inline-block;
+  display: block;
   width: 100%;
+  overflow: hidden;
 }
 .rek-label {
   font-size: 11px;
@@ -537,10 +538,12 @@ footer a:hover{text-decoration:underline;}
 }
 .rek-num {
   font-family: 'Syne', sans-serif;
-  font-size: 26px;
+  font-size: 18px;
   font-weight: 800;
   color: var(--purple-light);
-  letter-spacing: 2px;
+  letter-spacing: 1px;
+  word-break: break-all;
+  overflow-wrap: break-word;
   margin-bottom: 4px;
 }
 .rek-name {
@@ -602,6 +605,8 @@ footer a:hover{text-decoration:underline;}
       <span class="service-chip">Komen Followers</span>
       <span class="service-chip">Report Postingan</span>
       <span class="service-chip">Claim Voucher</span>
+      <span class="service-chip featured">Like Publik</span>
+      <span class="service-chip featured">Like IG Private</span>
     </div>
     <p style="font-size:13px;color:var(--text-muted);line-height:1.7;">
       Platform: TikTok, Instagram, YouTube, Facebook, X (Twitter), WhatsApp & lebih banyak lagi.
@@ -655,6 +660,8 @@ footer a:hover{text-decoration:underline;}
           <option value="Komen 50 Followers+Profil">Komen 50 Followers+Profil</option>
           <option value="Komen 100 Followers+Profil">Komen 100 Followers+Profil</option>
           <option value="Claim voucher">Claim Voucher</option>
+          <option value="Like Publik">Like Publik</option>
+          <option value="Like IG Private">Like IG Private</option>
         </select>
       </div>
 
@@ -894,6 +901,8 @@ window.updateOptions = function() {
   else if(type==='Vote Aplikasi') html+=`<option value="Vote Instagram">Instagram</option><option value="Vote YouTube">YouTube</option><option value="Vote TikTok">TikTok</option><option value="Vote WhatsApp">WhatsApp</option><option value="Vote X">X (Twitter)</option><option value="Vote Facebook">Facebook</option>`;
   else if(type==='Vote Web') html+=`<option value="Vote via Website">Vote via Website</option>`;
   else if(type==='Claim voucher') html+=`<option value="Whatsapp">WhatsApp</option>`;
+  else if(type==='Like Publik') html+=`<option value="TikTok">TikTok</option><option value="Twitter/X">Twitter/X</option><option value="Facebook">Facebook</option><option value="YouTube">YouTube</option><option value="Instagram">Instagram</option>`;
+  else if(type==='Like IG Private') html+=`<option value="Instagram Private">Instagram Private</option>`;
   else if(type==='Follow') html+=sm+`<option value="WhatsApp Channel">WhatsApp Channel</option>`;
   else html+=sm;
   sel.innerHTML=html;
@@ -913,7 +922,9 @@ window.calculatePrice = function() {
     'Spam Call':{'1x':700,'2x':750,'3x':800,'5x':900},
     'Vote Aplikasi':500,'Vote Web':900,
     'Komen Nonfollowers/Acak':500,'Komen 20 Followers':600,'Komen 50 Followers+Profil':800,'Komen 100 Followers+Profil':950,
-    'Follow':500,'Claim voucher':850
+    'Follow':500,'Claim voucher':850,
+    'Like Publik':500,
+    'Like IG Private':600
   };
   let price=0;
   if(map[type]) {
