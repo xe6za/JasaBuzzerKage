@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --bg: #0d0f0f;
       --card: #141718;
@@ -19,239 +18,149 @@
       --muted: #6b7775;
       --red: #ff4f4f;
       --red-dim: rgba(255,79,79,0.10);
+      --blue: #4fa3ff;
+      --blue-dim: rgba(79,163,255,0.12);
+      --blue-glow: rgba(79,163,255,0.25);
     }
-
     body {
       background: var(--bg);
       color: var(--text);
       font-family: 'Syne', sans-serif;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       padding: 24px 16px;
-      position: relative;
-      overflow-x: hidden;
+      position: relative; overflow-x: hidden;
     }
-
-    /* Background grid */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background-image:
         linear-gradient(rgba(37,211,102,0.04) 1px, transparent 1px),
         linear-gradient(90deg, rgba(37,211,102,0.04) 1px, transparent 1px);
       background-size: 40px 40px;
       pointer-events: none;
     }
-
-    /* Glow blob */
-    body::after {
-      content: '';
-      position: fixed;
-      top: -120px;
-      right: -120px;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(37,211,102,0.10) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .wrap {
-      width: 100%;
-      max-width: 520px;
-      position: relative;
-      z-index: 1;
-    }
+    .wrap { width: 100%; max-width: 540px; position: relative; z-index: 1; }
 
     /* Header */
-    .header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 32px;
-    }
-
+    .header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
     .wa-icon {
-      width: 48px; height: 48px;
-      background: var(--green);
-      border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      box-shadow: 0 0 24px var(--green-glow);
+      width: 48px; height: 48px; background: var(--green);
+      border-radius: 14px; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; box-shadow: 0 0 24px var(--green-glow);
     }
-
     .wa-icon svg { width: 28px; height: 28px; fill: #fff; }
+    .header-text h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.2; }
+    .header-text p { font-size: 12px; color: var(--muted); font-family: 'DM Mono', monospace; margin-top: 2px; }
 
-    .header-text h1 {
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      line-height: 1.2;
+    /* Tabs */
+    .tab-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+    .tab-btn {
+      padding: 12px 8px; border-radius: 12px; border: 1px solid var(--border);
+      background: var(--card); color: var(--muted);
+      font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
     }
-
-    .header-text p {
-      font-size: 12px;
-      color: var(--muted);
-      font-family: 'DM Mono', monospace;
-      margin-top: 2px;
-    }
+    .tab-btn.active-red { background: var(--red-dim); border-color: rgba(255,79,79,0.4); color: #ff8888; }
+    .tab-btn.active-blue { background: var(--blue-dim); border-color: rgba(79,163,255,0.4); color: #88c4ff; }
 
     /* Card */
     .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 28px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 18px; padding: 28px 24px;
+      display: flex; flex-direction: column; gap: 18px;
     }
 
-    /* Alert banner */
+    /* Alert */
     .alert {
-      background: var(--red-dim);
-      border: 1px solid rgba(255,79,79,0.25);
-      border-radius: 10px;
-      padding: 12px 14px;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      font-size: 13px;
-      color: #ffaaaa;
-      line-height: 1.5;
+      border-radius: 10px; padding: 12px 14px;
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 13px; line-height: 1.5;
     }
-
+    .alert-red { background: var(--red-dim); border: 1px solid rgba(255,79,79,0.25); color: #ffaaaa; }
+    .alert-blue { background: var(--blue-dim); border: 1px solid rgba(79,163,255,0.25); color: #aacfff; }
     .alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
 
-    /* Field */
+    .section-label {
+      font-size: 11px; font-family: 'DM Mono', monospace;
+      color: var(--muted); letter-spacing: 0.08em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+
+    /* Option tiles */
+    .options-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .option-tile {
+      border: 1px solid var(--border); border-radius: 12px;
+      padding: 14px 16px; cursor: pointer; transition: all .2s;
+      display: flex; align-items: flex-start; gap: 12px; background: #0d0f0f;
+    }
+    .option-tile:hover { border-color: #444; }
+    .option-tile.selected-red { border-color: rgba(255,79,79,0.5); background: var(--red-dim); }
+    .option-tile.selected-blue { border-color: rgba(79,163,255,0.5); background: var(--blue-dim); }
+    .tile-radio {
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 2px solid var(--border); flex-shrink: 0; margin-top: 2px;
+      transition: all .2s; display: flex; align-items: center; justify-content: center;
+    }
+    .option-tile.selected-red .tile-radio { border-color: var(--red); background: var(--red); }
+    .option-tile.selected-blue .tile-radio { border-color: var(--blue); background: var(--blue); }
+    .tile-radio::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #fff; display: none; }
+    .option-tile.selected-red .tile-radio::after,
+    .option-tile.selected-blue .tile-radio::after { display: block; }
+    .tile-body { flex: 1; }
+    .tile-title { font-size: 14px; font-weight: 600; line-height: 1.3; }
+    .tile-desc { font-size: 12px; color: var(--muted); font-family: 'DM Mono', monospace; margin-top: 3px; line-height: 1.5; }
+
+    /* Fields */
     .field { display: flex; flex-direction: column; gap: 6px; }
-
-    label {
-      font-size: 11px;
-      font-family: 'DM Mono', monospace;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+    label { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+    input {
+      background: #0d0f0f; border: 1px solid var(--border); border-radius: 10px;
+      color: var(--text); font-family: 'DM Mono', monospace; font-size: 14px;
+      padding: 12px 14px; width: 100%; outline: none;
+      transition: border-color .2s, box-shadow .2s; -webkit-appearance: none;
     }
-
-    input, select, textarea {
-      background: #0d0f0f;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text);
-      font-family: 'DM Mono', monospace;
-      font-size: 14px;
-      padding: 12px 14px;
-      width: 100%;
-      outline: none;
-      transition: border-color .2s, box-shadow .2s;
-      -webkit-appearance: none;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px var(--green-dim);
-    }
-
-    textarea { resize: none; min-height: 140px; line-height: 1.6; font-size: 13px; }
-
-    select option { background: #141718; }
-
-    /* Phone row */
-    .phone-row {
-      display: flex;
-      align-items: stretch;
-      gap: 0;
-    }
-
+    input:focus { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-dim); }
+    .input-err { border-color: var(--red) !important; }
+    .phone-row { display: flex; align-items: stretch; }
     .phone-prefix {
-      background: #111414;
-      border: 1px solid var(--border);
-      border-right: none;
-      border-radius: 10px 0 0 10px;
-      color: var(--green);
-      font-family: 'DM Mono', monospace;
-      font-size: 14px;
-      padding: 12px 14px;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
+      background: #111414; border: 1px solid var(--border); border-right: none;
+      border-radius: 10px 0 0 10px; color: var(--green);
+      font-family: 'DM Mono', monospace; font-size: 14px; padding: 12px 14px;
+      white-space: nowrap; display: flex; align-items: center;
     }
-
-    .phone-row input {
-      border-radius: 0 10px 10px 0;
-      flex: 1;
-    }
+    .phone-row input { border-radius: 0 10px 10px 0; }
 
     /* Preview */
-    .preview-label {
-      font-size: 11px;
-      font-family: 'DM Mono', monospace;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
     .preview-box {
-      background: #0a0c0c;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
-      font-family: 'DM Mono', monospace;
-      font-size: 12.5px;
-      line-height: 1.7;
-      color: #a8bfb4;
-      white-space: pre-wrap;
-      word-break: break-word;
+      background: #0a0c0c; border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px; font-family: 'DM Mono', monospace; font-size: 12.5px;
+      line-height: 1.7; color: #a8bfb4; white-space: pre-wrap; word-break: break-word;
     }
 
-    /* Button */
+    hr { border: none; border-top: 1px solid var(--border); }
+
+    /* Buttons */
     .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: var(--green);
-      color: #0d0f0f;
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 15px;
-      padding: 14px;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      letter-spacing: 0.02em;
-      transition: transform .15s, box-shadow .15s, opacity .15s;
-      box-shadow: 0 4px 20px var(--green-glow);
-      text-decoration: none;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px;
+      padding: 14px; border-radius: 12px; border: none; cursor: pointer;
+      letter-spacing: 0.02em; transition: transform .15s, box-shadow .15s, opacity .15s;
       width: 100%;
     }
-
-    .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 28px var(--green-glow); }
+    .btn-red { background: var(--red); color: #fff; box-shadow: 0 4px 20px rgba(255,79,79,0.3); }
+    .btn-red:hover { transform: translateY(-1px); box-shadow: 0 8px 28px rgba(255,79,79,0.4); }
+    .btn-blue { background: var(--blue); color: #0d0f0f; box-shadow: 0 4px 20px var(--blue-glow); }
+    .btn-blue:hover { transform: translateY(-1px); box-shadow: 0 8px 28px var(--blue-glow); }
     .btn:active { transform: translateY(0); opacity: .9; }
+    .btn svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
 
-    .btn svg { width: 20px; height: 20px; fill: #0d0f0f; flex-shrink: 0; }
-
-    /* Note */
-    .note {
-      text-align: center;
-      font-size: 11.5px;
-      color: var(--muted);
-      font-family: 'DM Mono', monospace;
-      line-height: 1.6;
-    }
-
+    .note { text-align: center; font-size: 11.5px; color: var(--muted); font-family: 'DM Mono', monospace; line-height: 1.6; }
     .note a { color: var(--green); text-decoration: none; }
     .note a:hover { text-decoration: underline; }
 
-    /* Divider */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-    }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
@@ -259,117 +168,217 @@
 
   <div class="header">
     <div class="wa-icon">
-      <!-- WhatsApp icon -->
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-      </svg>
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     </div>
     <div class="header-text">
-      <h1>Laporkan Akun WhatsApp</h1>
+      <h1>Laporan Akun WhatsApp</h1>
       <p>support@whatsapp.com · via Email Client</p>
     </div>
   </div>
 
+  <!-- Tabs -->
+  <div class="tab-row">
+    <button class="tab-btn active-red" id="tab-block" onclick="switchTab('block')">🔒 Pemblokiran Akun</button>
+    <button class="tab-btn" id="tab-unblock" onclick="switchTab('unblock')">🔓 Pembukaan Blokir</button>
+  </div>
+
   <div class="card">
 
-    <div class="alert">
-      <span class="alert-icon">⚠️</span>
-      <span>Formulir ini akan membuka aplikasi email kamu dengan pesan yang sudah terisi. Kamu yang mengirimnya secara manual.</span>
-    </div>
-
-    <!-- Alasan -->
-    <div class="field">
-      <label>Alasan Pelaporan</label>
-      <select id="alasan" onchange="updatePreview()">
-        <option value="hilang">Nomor hilang / tidak bisa diakses</option>
-        <option value="diretas">Akun diretas / diambil alih</option>
-        <option value="disalahgunakan">Nomor disalahgunakan oleh orang lain</option>
-      </select>
-    </div>
-
-    <!-- Nomor WA -->
-    <div class="field">
-      <label>Nomor WhatsApp yang Dilaporkan</label>
-      <div class="phone-row">
-        <div class="phone-prefix">+62</div>
-        <input
-          type="tel"
-          id="nomor"
-          placeholder="8xxxxxxxxxx"
-          oninput="updatePreview()"
-          inputmode="numeric"
-        />
+    <!-- ===== BLOKIR ===== -->
+    <div id="section-block">
+      <div class="alert alert-red">
+        <span class="alert-icon">⚠️</span>
+        <span>Gunakan fitur ini jika akun kamu <strong>hilang, diretas, atau disalahgunakan</strong>. Formulir akan membuka aplikasi email — kamu yang mengirimnya.</span>
       </div>
+
+      <div style="margin-top:4px;">
+        <div class="section-label">Pilih Alasan Pemblokiran</div>
+        <div class="options-grid" id="block-options">
+
+          <div class="option-tile selected-red" data-val="hilang" onclick="selectOption('block','hilang',this)">
+            <div class="tile-radio"></div>
+            <div class="tile-body">
+              <div class="tile-title">📵 Nomor Hilang / Tidak Bisa Diakses</div>
+              <div class="tile-desc">SIM card hilang, nomor tidak aktif, atau tidak bisa terima OTP</div>
+            </div>
+          </div>
+
+          <div class="option-tile" data-val="diretas" onclick="selectOption('block','diretas',this)">
+            <div class="tile-radio"></div>
+            <div class="tile-body">
+              <div class="tile-title">🔓 Akun Diretas / Diambil Alih</div>
+              <div class="tile-desc">Ada pihak lain yang mengakses dan mengendalikan akun kamu</div>
+            </div>
+          </div>
+
+          <div class="option-tile" data-val="disalahgunakan" onclick="selectOption('block','disalahgunakan',this)">
+            <div class="tile-radio"></div>
+            <div class="tile-body">
+              <div class="tile-title">⚠️ Nomor Disalahgunakan</div>
+              <div class="tile-desc">Akun digunakan untuk penipuan, spam, atau aktivitas berbahaya</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Nomor WhatsApp yang Dilaporkan</label>
+        <div class="phone-row">
+          <div class="phone-prefix">+62</div>
+          <input type="tel" id="block-nomor" placeholder="8xxxxxxxxxx" oninput="updatePreview()" inputmode="numeric"/>
+        </div>
+      </div>
+
+      <hr/>
+      <div>
+        <div class="section-label">Preview Pesan</div>
+        <div class="preview-box" id="block-preview">—</div>
+      </div>
+      <hr/>
+
+      <button class="btn btn-red" onclick="openMail('block')">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        Kirim Permintaan Blokir
+      </button>
     </div>
 
-    <hr class="divider"/>
+    <!-- ===== BUKA BLOKIR ===== -->
+    <div id="section-unblock" class="hidden">
+      <div class="alert alert-blue">
+        <span class="alert-icon">ℹ️</span>
+        <span>Gunakan fitur ini jika akun kamu <strong>terblokir oleh WhatsApp</strong> dan ingin mengajukan pemulihan akun.</span>
+      </div>
 
-    <!-- Preview -->
-    <div>
-      <div class="preview-label">Preview Pesan Email</div>
-      <div class="preview-box" id="preview">—</div>
+      <div style="margin-top:4px;">
+        <div class="section-label">Pilih Alasan Pengajuan</div>
+        <div class="options-grid" id="unblock-options">
+
+          <div class="option-tile selected-blue" data-val="salah" onclick="selectOption('unblock','salah',this)">
+            <div class="tile-radio"></div>
+            <div class="tile-body">
+              <div class="tile-title">✅ Diblokir Karena Kesalahan Sistem</div>
+              <div class="tile-desc">Akun diblokir tanpa alasan jelas, tidak melanggar ketentuan layanan</div>
+            </div>
+          </div>
+
+          <div class="option-tile" data-val="sudah-diperbaiki" onclick="selectOption('unblock','sudah-diperbaiki',this)">
+            <div class="tile-radio"></div>
+            <div class="tile-body">
+              <div class="tile-title">🔧 Masalah Sudah Diselesaikan</div>
+              <div class="tile-desc">Pernah melanggar kebijakan, namun sudah diperbaiki dan berkomitmen tidak mengulangi</div>
+            </div>
+          </div>
+
+          <div class="option-tile" data-val="verifikasi" onclick="selectOption('unblock','verifikasi',this)">
+            <div class="tile-radio"></div>
+            <div class="tile-body">
+              <div class="tile-title">🪪 Terblokir Saat Verifikasi</div>
+              <div class="tile-desc">Akun terblokir ketika proses verifikasi nomor telepon berlangsung</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Nomor WhatsApp yang Ingin Dipulihkan</label>
+        <div class="phone-row">
+          <div class="phone-prefix">+62</div>
+          <input type="tel" id="unblock-nomor" placeholder="8xxxxxxxxxx" oninput="updatePreview()" inputmode="numeric"/>
+        </div>
+      </div>
+
+      <hr/>
+      <div>
+        <div class="section-label">Preview Pesan</div>
+        <div class="preview-box" id="unblock-preview">—</div>
+      </div>
+      <hr/>
+
+      <button class="btn btn-blue" onclick="openMail('unblock')">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        Kirim Permohonan Buka Blokir
+      </button>
     </div>
-
-    <hr class="divider"/>
-
-    <!-- Tombol -->
-    <a id="mailtoBtn" href="#" class="btn" onclick="return openMail()">
-      <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-      Buka di Aplikasi Email
-    </a>
 
     <p class="note">
-      Klik tombol di atas untuk membuka Gmail / aplikasi email.<br/>
-      Atau hubungi WhatsApp langsung via <a href="https://wa.me/help" target="_blank">wa.me/help</a> (lebih cepat).
+      Klik tombol untuk membuka Gmail / aplikasi email kamu.<br/>
+      Atau langsung via <a href="https://wa.me/help" target="_blank">wa.me/help</a> (lebih cepat direspons).
     </p>
 
   </div>
 </div>
 
 <script>
-  const alasanMap = {
-    hilang: "hilang / tidak bisa diakses",
-    diretas: "diretas / diambil alih orang lain",
-    disalahgunakan: "disalahgunakan oleh pihak yang tidak bertanggung jawab"
+  let currentTab = 'block';
+  let blockReason = 'hilang';
+  let unblockReason = 'salah';
+
+  const blockMsgMap = {
+    hilang: 'nomor saya hilang / tidak dapat diakses lagi (SIM card hilang atau tidak dapat menerima OTP)',
+    diretas: 'akun saya telah diretas dan diambil alih oleh pihak yang tidak bertanggung jawab',
+    disalahgunakan: 'nomor saya sedang disalahgunakan untuk kegiatan penipuan / spam oleh pihak lain'
   };
 
-  function buildBody(nomor, alasan) {
-    const nomorFull = nomor ? `+62${nomor.replace(/\D/g,'')}` : '+62___________';
-    return `Halo tim WhatsApp,
+  const unblockMsgMap = {
+    salah: 'akun saya terblokir padahal saya tidak melakukan pelanggaran apapun terhadap Ketentuan Layanan WhatsApp',
+    'sudah-diperbaiki': 'akun saya sebelumnya melanggar kebijakan, namun masalah tersebut telah saya perbaiki dan saya berkomitmen untuk tidak mengulanginya',
+    verifikasi: 'akun saya terblokir saat proses verifikasi nomor telepon dan saya memerlukan bantuan untuk memulihkannya'
+  };
 
-Saya ingin mengajukan pemblokiran akun WhatsApp saya karena akun ini ${alasanMap[alasan]}.
+  function switchTab(tab) {
+    currentTab = tab;
+    const isBlock = tab === 'block';
+    document.getElementById('section-block').classList.toggle('hidden', !isBlock);
+    document.getElementById('section-unblock').classList.toggle('hidden', isBlock);
+    document.getElementById('tab-block').className = 'tab-btn' + (isBlock ? ' active-red' : '');
+    document.getElementById('tab-unblock').className = 'tab-btn' + (!isBlock ? ' active-blue' : '');
+    updatePreview();
+  }
 
-Nomor WhatsApp: ${nomorFull}
+  function selectOption(type, val, el) {
+    document.getElementById(type + '-options').querySelectorAll('.option-tile').forEach(t => {
+      t.classList.remove('selected-red', 'selected-blue');
+    });
+    el.classList.add(type === 'block' ? 'selected-red' : 'selected-blue');
+    if (type === 'block') blockReason = val;
+    else unblockReason = val;
+    updatePreview();
+  }
 
-Mohon bantuannya untuk segera memblokir akun tersebut demi keamanan saya.
+  function buildBlockBody(nomor) {
+    const n = nomor ? `+62${nomor.replace(/\D/g,'')}` : '+62___________';
+    return `Halo tim WhatsApp,\n\nSaya ingin mengajukan permohonan pemblokiran akun WhatsApp karena ${blockMsgMap[blockReason]}.\n\nNomor WhatsApp: ${n}\n\nMohon bantuannya untuk segera memblokir akun tersebut demi keamanan saya dan orang lain.\n\nTerima kasih.`;
+  }
 
-Terima kasih.`;
+  function buildUnblockBody(nomor) {
+    const n = nomor ? `+62${nomor.replace(/\D/g,'')}` : '+62___________';
+    return `Halo tim WhatsApp,\n\nSaya ingin mengajukan permohonan pembukaan blokir akun WhatsApp saya karena ${unblockMsgMap[unblockReason]}.\n\nNomor WhatsApp: ${n}\n\nMohon kiranya akun saya dapat dipulihkan kembali. Saya siap memberikan informasi tambahan jika diperlukan.\n\nTerima kasih.`;
   }
 
   function updatePreview() {
-    const nomor  = document.getElementById('nomor').value.trim();
-    const alasan = document.getElementById('alasan').value;
-    document.getElementById('preview').textContent = buildBody(nomor, alasan);
+    const bn = document.getElementById('block-nomor').value.trim();
+    const un = document.getElementById('unblock-nomor').value.trim();
+    document.getElementById('block-preview').textContent = buildBlockBody(bn);
+    document.getElementById('unblock-preview').textContent = buildUnblockBody(un);
   }
 
-  function openMail() {
-    const nomor  = document.getElementById('nomor').value.trim();
-    const alasan = document.getElementById('alasan').value;
-
+  function openMail(type) {
+    const nomorEl = document.getElementById(type + '-nomor');
+    const nomor = nomorEl.value.trim();
     if (!nomor) {
-      document.getElementById('nomor').focus();
-      document.getElementById('nomor').style.borderColor = 'var(--red)';
-      setTimeout(() => document.getElementById('nomor').style.borderColor = '', 1500);
-      return false;
+      nomorEl.classList.add('input-err');
+      nomorEl.focus();
+      setTimeout(() => nomorEl.classList.remove('input-err'), 1500);
+      return;
     }
-
-    const subject = encodeURIComponent('Permohonan Pemblokiran Akun WhatsApp');
-    const body    = encodeURIComponent(buildBody(nomor, alasan));
+    const isBlock = type === 'block';
+    const subject = encodeURIComponent(isBlock ? 'Permohonan Pemblokiran Akun WhatsApp' : 'Permohonan Pembukaan Blokir Akun WhatsApp');
+    const body = encodeURIComponent(isBlock ? buildBlockBody(nomor) : buildUnblockBody(nomor));
     window.location.href = `mailto:support@whatsapp.com?subject=${subject}&body=${body}`;
-    return false;
   }
 
-  // Init preview
   updatePreview();
 </script>
 </body>
